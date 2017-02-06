@@ -26,3 +26,4 @@ public class CrimeActivity extends FragmentActivity {
     }
   }
 }
+
