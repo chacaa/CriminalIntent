@@ -9,21 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-public class CrimeFragment extends Fragment {
-  private EditText titleField;
+import butterknife.BindView;
 
-  private Crime crime;
+public class CrimeFragment extends Fragment {
+  @BindView(R.id.cime_title)
+  EditText titleField;
+
+  private Crime crime = new Crime();
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    crime = new Crime();
     View view = inflater.inflate(R.layout.fragment_crime, container, false);
-    bindViews(view);
-    setupListeners();
+    setupViewListeners();
     return view;
   }
 
-  private void setupListeners() {
+  private void setupViewListeners() {
     titleField.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -38,9 +39,5 @@ public class CrimeFragment extends Fragment {
       public void afterTextChanged(Editable s) {
       }
     });
-  }
-
-  private void bindViews(View view) {
-    titleField = (EditText) view.findViewById(R.id.cime_title);
   }
 }
