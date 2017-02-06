@@ -10,19 +10,20 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 public class CrimeFragment extends Fragment {
-  private Crime crime;
   private EditText titleField;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    crime = new Crime();
-  }
+  private Crime crime;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.fragment_crime, container, false);
-    titleField = (EditText) v.findViewById(R.id.cime_title);
+    crime = new Crime();
+    View view = inflater.inflate(R.layout.fragment_crime, container, false);
+    bindViews(view);
+    setupListeners();
+    return view;
+  }
+
+  private void setupListeners() {
     titleField.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -37,6 +38,9 @@ public class CrimeFragment extends Fragment {
       public void afterTextChanged(Editable s) {
       }
     });
-    return v;
+  }
+
+  private void bindViews(View view) {
+    titleField = (EditText) view.findViewById(R.id.cime_title);
   }
 }

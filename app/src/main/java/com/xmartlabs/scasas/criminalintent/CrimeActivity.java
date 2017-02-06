@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
  * Created by scasas on 2/2/17.
  */
 public class CrimeActivity extends FragmentActivity {
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -18,8 +17,10 @@ public class CrimeActivity extends FragmentActivity {
     Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
     if (fragment == null) {
       fragment = new CrimeFragment();
-      fragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit();
+      fragmentManager
+          .beginTransaction()
+          .add(R.id.fragment_container, fragment)
+          .commit();
     }
-
   }
 }

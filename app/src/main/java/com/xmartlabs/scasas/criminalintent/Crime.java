@@ -7,8 +7,8 @@ import java.util.UUID;
  * Created by scasas on 2/2/17.
  */
 public class Crime {
-  private Date date;
-  private UUID id;
+  private Date date = new Date();
+  private UUID id = generateUniqueIdentifier();
   private boolean solved;
   private String title;
 
@@ -22,11 +22,6 @@ public class Crime {
 
   public void setTitle(String title) {
     this.title = title;
-  }
-
-  public Crime() {
-    id = generateUniqueIdentifier();
-    date = new Date();
   }
 
   private UUID generateUniqueIdentifier() {
