@@ -21,16 +21,16 @@ android {
 }
 
 final ANDROID_SUPPORT_VERSION = '25.1.0'
-final BUTTERKNIFE_SUPPORT_VERSION = '8.5.1'
+final BUTTERKNIFE_VERSION = '8.5.1'
 
 dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_SUPPORT_VERSION}"
+    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
     compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:support-v4:${ANDROID_SUPPORT_VERSION}"
-    compile "com.jakewharton:butterknife:${BUTTERKNIFE_SUPPORT_VERSION}"
+    compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
 }
