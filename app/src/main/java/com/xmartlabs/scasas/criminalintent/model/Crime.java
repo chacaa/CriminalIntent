@@ -1,4 +1,4 @@
-package com.xmartlabs.scasas.criminalintent;
+package com.xmartlabs.scasas.criminalintent.model;
 
 import java.util.Date;
 import java.util.UUID;
@@ -11,6 +11,22 @@ public class Crime {
   private UUID id = generateUniqueIdentifier();
   private boolean solved;
   private String title;
+
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
+  }
+
+  public boolean isSolved() {
+    return solved;
+  }
+
+  public void setSolved(boolean solved) {
+    this.solved = solved;
+  }
 
   public UUID getId() {
     return id;
@@ -28,4 +44,3 @@ public class Crime {
     return UUID.randomUUID();
   }
 }
-

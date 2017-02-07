@@ -1,9 +1,11 @@
-package com.xmartlabs.scasas.criminalintent;
+package com.xmartlabs.scasas.criminalintent.ui.crime;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+
+import com.xmartlabs.scasas.criminalintent.R;
 
 /**
  * Created by scasas on 2/2/17.
@@ -24,3 +26,4 @@ public class CrimeActivity extends FragmentActivity {
     }
   }
 }
+
