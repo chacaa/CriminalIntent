@@ -19,11 +19,8 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnTextChanged;
 
 public class CrimeFragment extends Fragment {
-  @BindView(R.id.crime_title)
-  EditText titleField;
-  private Button dateButton;
-  @BindView(R.id.crime_solved)
-  CheckBox solvedCheckBox;
+  @BindView(R.id.crime_date)
+  Button dateButton;
 
   private Crime crime = new Crime();
 
