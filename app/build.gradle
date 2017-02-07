@@ -1,3 +1,12 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
@@ -20,7 +29,7 @@ android {
     }
 }
 
-final ANDROID_SUPPORT_VERSION = '25.1.0'
+final ANDROID_SUPPORT_VERSION = '25.1.1'
 final BUTTERKNIFE_VERSION = '8.5.1'
 
 dependencies {

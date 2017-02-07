@@ -1,4 +1,4 @@
-package com.xmartlabs.scasas.criminalintent.ui;
+package com.xmartlabs.scasas.criminalintent.ui.crime;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,8 +21,7 @@ import butterknife.OnTextChanged;
 public class CrimeFragment extends Fragment {
   @BindView(R.id.crime_title)
   EditText titleField;
-  @BindView(R.id.crime_date)
-  Button dateButton;
+  private Button dateButton;
   @BindView(R.id.crime_solved)
   CheckBox solvedCheckBox;
 
