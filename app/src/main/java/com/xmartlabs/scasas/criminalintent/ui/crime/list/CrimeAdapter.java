@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by scasas on 2/8/17.
  */
 public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder> {
-  protected List<Crime> crimes;
+  protected final List<Crime> crimes;
 
   public CrimeAdapter(@NonNull List<Crime> crimes) {
     this.crimes = crimes;
