@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         >
 
-        <activity android:name=".ui.crime.CrimeActivity">
+        <activity android:name=".ui.crime.list.CrimeListActivity">
 
             <intent-filter>
 
@@ -23,6 +23,11 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:label="@string/app_name"
+            android:name=".ui.crime.simple.CrimeActivity"
+            />
 
         <meta-data
             android:name="io.fabric.ApiKey"

@@ -46,6 +46,7 @@ dependencies {
     })
     apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
     compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:support-v4:${ANDROID_SUPPORT_VERSION}"
     compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
     compile fileTree(include: ['*.jar'], dir: 'libs')
