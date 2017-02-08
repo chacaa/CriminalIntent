@@ -1,4 +1,4 @@
-package com.xmartlabs.scasas.criminalintent.ui.crime;
+package com.xmartlabs.scasas.criminalintent.ui.crime.simple;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
