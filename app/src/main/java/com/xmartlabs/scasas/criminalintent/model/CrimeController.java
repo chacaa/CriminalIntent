@@ -9,28 +9,25 @@ import java.util.UUID;
 /**
  * Created by scasas on 2/7/17.
  */
-public class CrimeLab {
-  private static CrimeLab crimeLab;
+public class CrimeController {
+  private final static CrimeController INSTANCE = new CrimeController();
 
-  private List<Crime> crimes;
+  private final List<Crime> crimes = new ArrayList<>();
 
   public List<Crime> getCrimes() {
     return crimes;
   }
 
-  public static CrimeLab get(Context context) {
-    if (crimeLab == null) {
-      crimeLab = new CrimeLab(context);
-    }
-    return crimeLab;
+  public static CrimeController getInstance() {
+    return INSTANCE;
   }
 
-  private CrimeLab(Context context) {
-    crimes = new ArrayList<>();
+  private CrimeController() {
     generateTestCrimes(100);
   }
 
   public Crime getCrime(UUID id) {
+    //TODO it would be use later
     for (Crime crime : crimes) {
       if (crime.getId().equals(id)) {
         return crime;

@@ -1,5 +1,6 @@
 package com.xmartlabs.scasas.criminalintent.ui.crime.list;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import butterknife.ButterKnife;
 public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder> {
   protected List<Crime> crimes;
 
-  public CrimeAdapter(List<Crime> crimes) {
+  public CrimeAdapter(@NonNull List<Crime> crimes) {
     this.crimes = crimes;
   }
 
@@ -45,7 +46,7 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
     return crimes.size();
   }
 
-  class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+  static class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     @BindView(R.id.list_item_crime_date_textview)
     TextView dateTextView;
     @BindView(R.id.list_item_crime_solved_checkbox)
@@ -71,9 +72,7 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
     }
 
     private void makeToast(@StringRes int toastMessage) {
-      Toast
-          .makeText(itemView.getContext(), toastMessage, Toast.LENGTH_SHORT)
-          .show();
+      Toast.makeText(itemView.getContext(), toastMessage, Toast.LENGTH_SHORT).show();
     }
   }
 }
