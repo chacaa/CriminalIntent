@@ -1,5 +1,6 @@
 package com.xmartlabs.scasas.criminalintent.ui.crime.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.model.CrimeController;
+import com.xmartlabs.scasas.criminalintent.ui.crime.simple.CrimeActivity;
 
 import java.util.List;
 
@@ -35,10 +37,25 @@ public class CrimeListFragment extends Fragment {
     return view;
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+    updateUI();
+  }
+
   private void updateUI() {
     CrimeController crimelab = CrimeController.getInstance();
     List<Crime> crimes = crimelab.getCrimes();
-    adapter = new CrimeAdapter(crimes);
-    crimeRecyclerView.setAdapter(adapter);
+    if (adapter == null) {
+      adapter = new CrimeAdapter(crimes, this::onCrimeTapped);
+      crimeRecyclerView.setAdapter(adapter);
+    } else {
+      adapter.notifyDataSetChanged();
+    }
+  }
+
+  private void onCrimeTapped(Crime crime) {
+    Intent intent = CrimeActivity.newIntent(getActivity(), crime.getId());
+    startActivity(intent);
   }
 }

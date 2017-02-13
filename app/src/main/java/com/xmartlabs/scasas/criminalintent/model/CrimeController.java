@@ -1,10 +1,13 @@
 package com.xmartlabs.scasas.criminalintent.model;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import com.annimon.stream.Stream;
+import com.xmartlabs.scasas.criminalintent.helper.ObjectsHelper;
 
 /**
  * Created by scasas on 2/7/17.
@@ -26,10 +29,9 @@ public class CrimeController {
     generateTestCrimes(100);
   }
 
-  public Crime getCrime(UUID id) {
-    //TODO it would be used later
+  public Crime getCrime(@NonNull UUID id) {
     return Stream.of(crimes)
-        .filter(crime -> crime.getId() == id)
+        .filter(crime -> ObjectsHelper.equals(crime.getId(), id))
         .findFirst()
         .orElse(null);
   }
