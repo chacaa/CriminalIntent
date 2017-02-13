@@ -32,9 +32,15 @@ public class CrimeListFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
     ButterKnife.bind(this, view);
-    crimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    updateUI();
+    setpuRecyclerView();
+
     return view;
+  }
+
+  private void setpuRecyclerView() {
+    crimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    adapter = new CrimeAdapter(this::onCrimeTapped);
+    crimeRecyclerView.setAdapter(adapter);
   }
 
   @Override
@@ -46,12 +52,7 @@ public class CrimeListFragment extends Fragment {
   private void updateUI() {
     CrimeController crimelab = CrimeController.getInstance();
     List<Crime> crimes = crimelab.getCrimes();
-    if (adapter == null) {
-      adapter = new CrimeAdapter(crimes, this::onCrimeTapped);
-      crimeRecyclerView.setAdapter(adapter);
-    } else {
-      adapter.notifyDataSetChanged();
-    }
+    adapter.setCrimes(crimes);
   }
 
   private void onCrimeTapped(Crime crime) {

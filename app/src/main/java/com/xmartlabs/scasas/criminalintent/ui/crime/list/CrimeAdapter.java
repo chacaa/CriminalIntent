@@ -12,6 +12,7 @@ import com.xmartlabs.scasas.criminalintent.ui.common.OnTappedListener;
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,11 +22,15 @@ import butterknife.ButterKnife;
  * Created by scasas on 2/8/17.
  */
 public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder> {
-  private final List<Crime> crimes;
+  private List<Crime> crimes = new ArrayList<>();
   private final OnTappedListener<Crime> onCrimeTappedListener;
 
-  public CrimeAdapter(@NonNull List<Crime> crimes, OnTappedListener<Crime> onCrimeTappedListener) {
+  public void setCrimes(List<Crime> crimes) {
     this.crimes = crimes;
+    notifyDataSetChanged();
+  }
+
+  public CrimeAdapter( OnTappedListener<Crime> onCrimeTappedListener) {
     this.onCrimeTappedListener = onCrimeTappedListener;
   }
 

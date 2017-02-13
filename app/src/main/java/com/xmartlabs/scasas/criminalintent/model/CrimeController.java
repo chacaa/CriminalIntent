@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.annimon.stream.Objects;
 import com.annimon.stream.Stream;
-import com.xmartlabs.scasas.criminalintent.helper.ObjectsHelper;
 
 /**
  * Created by scasas on 2/7/17.
@@ -31,7 +31,7 @@ public class CrimeController {
 
   public Crime getCrime(@NonNull UUID id) {
     return Stream.of(crimes)
-        .filter(crime -> ObjectsHelper.equals(crime.getId(), id))
+        .filter(crime -> Objects.equals(crime.getId(), id))
         .findFirst()
         .orElse(null);
   }
