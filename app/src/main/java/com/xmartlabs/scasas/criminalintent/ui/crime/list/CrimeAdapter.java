@@ -1,5 +1,6 @@
 package com.xmartlabs.scasas.criminalintent.ui.crime.list;
 
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
   private List<Crime> crimes = new ArrayList<>();
   private final OnTappedListener<Crime> onCrimeTappedListener;
 
+  @MainThread
   public void setCrimes(List<Crime> crimes) {
     this.crimes = crimes;
     notifyDataSetChanged();

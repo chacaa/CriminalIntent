@@ -39,6 +39,7 @@ public class CrimeListFragment extends Fragment {
 
   private void setpuRecyclerView() {
     crimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    crimeRecyclerView.setHasFixedSize(true);
     adapter = new CrimeAdapter(this::onCrimeTapped);
     crimeRecyclerView.setAdapter(adapter);
   }

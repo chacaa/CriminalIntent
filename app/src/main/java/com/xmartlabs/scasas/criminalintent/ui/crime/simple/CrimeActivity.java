@@ -27,4 +27,3 @@ public class CrimeActivity extends SingleFragmentActivity {
     return intent;
   }
 }
-

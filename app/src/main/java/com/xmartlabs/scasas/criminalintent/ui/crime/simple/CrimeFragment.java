@@ -60,7 +60,8 @@ public class CrimeFragment extends Fragment {
       crime = new Crime.Builder()
           .date(new Date())
           .solved(false)
-          .title("").build();
+          .title("")
+          .build();
       setupDateButton();
     }
     return view;

@@ -6,4 +6,3 @@ package com.xmartlabs.scasas.criminalintent.ui.common;
 public interface OnTappedListener<T> {
   void call(T argument);
 }
-
