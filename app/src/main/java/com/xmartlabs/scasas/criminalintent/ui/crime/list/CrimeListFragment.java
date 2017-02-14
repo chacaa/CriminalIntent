@@ -1,5 +1,6 @@
 package com.xmartlabs.scasas.criminalintent.ui.crime.list;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.model.CrimeController;
+import com.xmartlabs.scasas.criminalintent.ui.crime.simple.CrimeActivity;
 
 import java.util.List;
 
@@ -30,15 +32,32 @@ public class CrimeListFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
     ButterKnife.bind(this, view);
-    crimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    updateUI();
+    setpuRecyclerView();
+
     return view;
+  }
+
+  private void setpuRecyclerView() {
+    crimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    crimeRecyclerView.setHasFixedSize(true);
+    adapter = new CrimeAdapter(this::onCrimeTapped);
+    crimeRecyclerView.setAdapter(adapter);
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    updateUI();
   }
 
   private void updateUI() {
     CrimeController crimelab = CrimeController.getInstance();
     List<Crime> crimes = crimelab.getCrimes();
-    adapter = new CrimeAdapter(crimes);
-    crimeRecyclerView.setAdapter(adapter);
+    adapter.setCrimes(crimes);
+  }
+
+  private void onCrimeTapped(Crime crime) {
+    Intent intent = CrimeActivity.newIntent(getActivity(), crime.getId());
+    startActivity(intent);
   }
 }
