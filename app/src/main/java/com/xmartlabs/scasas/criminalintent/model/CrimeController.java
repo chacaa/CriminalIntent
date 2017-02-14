@@ -3,6 +3,7 @@ package com.xmartlabs.scasas.criminalintent.model;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,12 +39,11 @@ public class CrimeController {
 
   private void generateTestCrimes(int numberOfCrimes) {
     Stream.range(0, numberOfCrimes - 1)
-        .map(integer -> {
-          Crime crime = new Crime();
-          crime.setTitle("Crime #" + integer);
-          crime.setSolved(integer % 11 == 0 || integer % 21 == 0);
-          return crime;
-        })
+        .map(integer -> new Crime.Builder()
+            .title("Crime #" + integer)
+            .solved(integer % 11 == 0 || integer % 21 == 0)
+            .date(new Date())
+            .build())
         .forEach(crimes::add);
   }
 }

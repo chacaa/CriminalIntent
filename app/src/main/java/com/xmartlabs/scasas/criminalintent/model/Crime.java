@@ -7,7 +7,7 @@ import java.util.UUID;
  * Created by scasas on 2/2/17.
  */
 public class Crime {
-  private Date date = new Date();
+  private Date date;
   private UUID id = generateUniqueIdentifier();
   private boolean solved;
   private String title;
@@ -42,5 +42,39 @@ public class Crime {
 
   private UUID generateUniqueIdentifier() {
     return UUID.randomUUID();
+  }
+
+  public static final class Builder {
+    private Date date;
+    private boolean solved;
+    private String title;
+
+    public Builder() {
+    }
+
+    public Builder date(Date val) {
+      date = val;
+      return this;
+    }
+
+    public Builder solved(boolean val) {
+      solved = val;
+      return this;
+    }
+
+    public Builder title(String val) {
+      title = val;
+      return this;
+    }
+
+    public Crime build() {
+      return new Crime(this);
+    }
+  }
+
+  private Crime(Builder builder) {
+    setDate(builder.date);
+    setSolved(builder.solved);
+    setTitle(builder.title);
   }
 }

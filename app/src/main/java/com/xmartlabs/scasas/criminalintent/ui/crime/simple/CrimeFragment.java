@@ -15,6 +15,7 @@ import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.model.CrimeController;
 
+import java.util.Date;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -55,7 +56,11 @@ public class CrimeFragment extends Fragment {
       crime = CrimeController.getInstance().getCrime(crimeId);
       setValues();
     } else {
-      crime = new Crime();
+      //TODO it will be used later
+      crime = new Crime.Builder()
+          .date(new Date())
+          .solved(false)
+          .title("").build();
       setupDateButton();
     }
     return view;

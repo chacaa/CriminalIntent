@@ -30,7 +30,7 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
     notifyDataSetChanged();
   }
 
-  public CrimeAdapter( OnTappedListener<Crime> onCrimeTappedListener) {
+  public CrimeAdapter(OnTappedListener<Crime> onCrimeTappedListener) {
     this.onCrimeTappedListener = onCrimeTappedListener;
   }
 
@@ -60,12 +60,12 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
     @BindView(R.id.list_item_crime_title_textview)
     TextView titleTextView;
 
-    private OnTappedListener<Crime> onCrimeTappedListener;
+    private final OnTappedListener<Crime> onCrimeTappedListener;
 
     public CrimeHolder(View itemView, OnTappedListener<Crime> onCrimeTappedListener) {
       super(itemView);
-       ButterKnife.bind(this, itemView);
-       this.onCrimeTappedListener = onCrimeTappedListener;
+      ButterKnife.bind(this, itemView);
+      this.onCrimeTappedListener = onCrimeTappedListener;
     }
 
     public void bind(Crime crime) {
