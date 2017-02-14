@@ -39,9 +39,9 @@ public class CrimeController {
 
   private void generateTestCrimes(int numberOfCrimes) {
     Stream.range(0, numberOfCrimes - 1)
-        .map(integer -> new Crime.Builder()
-            .title("Crime #" + integer)
-            .solved(integer % 11 == 0 || integer % 21 == 0)
+        .map(index -> new Crime.Builder()
+            .title("Crime #" + index)
+            .solved(index % 11 == 0 || index % 21 == 0)
             .date(new Date())
             .build())
         .forEach(crimes::add);
