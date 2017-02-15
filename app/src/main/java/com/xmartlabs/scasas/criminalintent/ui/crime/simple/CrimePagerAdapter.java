@@ -1,5 +1,6 @@
 package com.xmartlabs.scasas.criminalintent.ui.crime.simple;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,9 +13,10 @@ import java.util.List;
  * Created by scasas on 2/15/17.
  */
 public class CrimePagerAdapter extends FragmentStatePagerAdapter {
+  @NonNull
   private final List<Crime> crimes;
 
-  public CrimePagerAdapter(FragmentManager fragmentManager, List<Crime> crimes) {
+  public CrimePagerAdapter(FragmentManager fragmentManager, @NonNull List<Crime> crimes) {
     super(fragmentManager);
     this.crimes = crimes;
   }

@@ -63,7 +63,7 @@ public class CrimePagerActivity extends FragmentActivity {
     viewPager.setAdapter(crimePagerAdapter);
   }
 
-  private UUID obtainCrimeIdFromCall(){
+  private UUID obtainCrimeIdFromCall() {
     return (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
   }
 }
