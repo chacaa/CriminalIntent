@@ -1,7 +1,6 @@
 package com.xmartlabs.scasas.criminalintent.ui.crime.simple;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +8,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
-import com.xmartlabs.scasas.criminalintent.model.CrimeController;
+import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 
 import java.util.Date;
 import java.util.UUID;

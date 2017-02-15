@@ -26,13 +26,17 @@
 
         <activity
             android:label="@string/app_name"
-            android:name=".ui.crime.simple.CrimeActivity"
+            android:name=".ui.crime.simple.CrimePagerActivity"
             />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="fb54b0fcded49d3e82043de10c558d9ea0018076"
-            />
+            /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 
