@@ -46,7 +46,7 @@ public class CrimePagerActivity extends FragmentActivity {
   }
 
   private void setCurrentItem(UUID crimeId) {
-    Stream.range(0, crimes.size() - 1)
+    Stream.range(0, crimes.size())
         .filter(index -> Objects.equals(crimes.get(index).getId(), crimeId))
         .findFirst()
         .ifPresent(viewPager::setCurrentItem);
