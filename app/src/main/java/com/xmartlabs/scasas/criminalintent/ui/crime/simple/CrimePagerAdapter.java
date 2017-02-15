@@ -12,7 +12,7 @@ import java.util.List;
  * Created by scasas on 2/15/17.
  */
 public class CrimePagerAdapter extends FragmentStatePagerAdapter {
-  private List<Crime> crimes;
+  private final List<Crime> crimes;
 
   public CrimePagerAdapter(FragmentManager fragmentManager, List<Crime> crimes) {
     super(fragmentManager);

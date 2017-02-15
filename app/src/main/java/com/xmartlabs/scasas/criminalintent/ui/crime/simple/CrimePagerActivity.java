@@ -29,20 +29,19 @@ public class CrimePagerActivity extends FragmentActivity {
   @BindView(R.id.activity_crime_pager_view_pager)
   ViewPager viewPager;
 
-  private List<Crime> crimes = CrimeController.getInstance().getCrimes();
+  private final List<Crime> crimes = CrimeController.getInstance().getCrimes();
 
   public static Intent newIntent(Context packageContext, UUID crimeId) {
-    Intent intent = new Intent(packageContext, CrimePagerActivity.class);
-    intent.putExtra(EXTRA_CRIME_ID, crimeId);
-    return intent;
+    return new Intent(packageContext, CrimePagerActivity.class)
+        .putExtra(EXTRA_CRIME_ID, crimeId);
   }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    UUID crimeId = obtainCrimeIdFromCall();
     setupLayout();
     setupCrimePagerAdapter();
+    UUID crimeId = obtainCrimeIdFromCall();
     setCurrentItem(crimeId);
   }
 
