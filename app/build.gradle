@@ -66,4 +66,3 @@ dependencies {
     }
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.5.0'
 }
-

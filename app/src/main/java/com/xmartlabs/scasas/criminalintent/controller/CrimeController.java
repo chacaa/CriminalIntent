@@ -1,4 +1,4 @@
-package com.xmartlabs.scasas.criminalintent.model;
+package com.xmartlabs.scasas.criminalintent.controller;
 
 import android.support.annotation.NonNull;
 
@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import com.annimon.stream.Objects;
 import com.annimon.stream.Stream;
+import com.xmartlabs.scasas.criminalintent.model.Crime;
 
 /**
  * Created by scasas on 2/7/17.

@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
-import com.xmartlabs.scasas.criminalintent.model.CrimeController;
-import com.xmartlabs.scasas.criminalintent.ui.crime.simple.CrimeActivity;
+import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
+import com.xmartlabs.scasas.criminalintent.ui.crime.simple.CrimePagerActivity;
 
 import java.util.List;
 
@@ -57,7 +57,7 @@ public class CrimeListFragment extends Fragment {
   }
 
   private void onCrimeTapped(Crime crime) {
-    Intent intent = CrimeActivity.newIntent(getActivity(), crime.getId());
+    Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
     startActivity(intent);
   }
 }
