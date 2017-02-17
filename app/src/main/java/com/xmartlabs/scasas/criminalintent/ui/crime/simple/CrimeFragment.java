@@ -83,26 +83,24 @@ public class CrimeFragment extends Fragment {
       Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
       crime.setDate(date);
       setupDateButton();
+    } else {
+      super.onActivityResult(requestCode, resultCode, data);
     }
   }
 
   @OnTextChanged(R.id.crime_title)
-  void onTitleTextChange(CharSequence newTitle) {
+  void onTitleTextChanged(CharSequence newTitle) {
     crime.setTitle(newTitle.toString());
   }
 
   @OnCheckedChanged(R.id.crime_solved)
-  void onSolvedCheckboxChange(boolean isChecked) {
+  void onSolvedCheckboxChanged(boolean isChecked) {
     crime.setSolved(isChecked);
-    if (isChecked) {
-      displayNotification(R.string.checked_solved);
-    } else {
-      displayNotification(R.string.unchecked_solved);
-    }
+    displayNotification(isChecked ? R.string.checked_solved : R.string.unchecked_solved);
   }
 
   @OnClick(R.id.crime_date)
-  void onDateButtonClick(View view) {
+  void onDateButtonClicked(View view) {
     FragmentManager manager = getFragmentManager();
     DatePickerFragment dialog = DatePickerFragment.newInstance(crime.getDate());
     dialog.setTargetFragment(this, REQUEST_DATE);

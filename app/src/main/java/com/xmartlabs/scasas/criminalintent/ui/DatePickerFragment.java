@@ -59,18 +59,13 @@ public class DatePickerFragment extends DialogFragment {
   }
 
   private void setupDatePicker() {
-    int[] date = getIntDateFromCall();
-    datePicker.init(date[0], date[1], date[2], null);
-  }
-
-  private int[] getIntDateFromCall() {
     Date date = (Date) getArguments().getSerializable(ARG_DATE);
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
     int year = calendar.get(Calendar.YEAR);
     int month = calendar.get(Calendar.MONTH);
     int day = calendar.get(Calendar.DAY_OF_MONTH);
-    return new int[] {year, month, day};
+    datePicker.init(year, month, day, null);
   }
 
   private void sendResult(int resultCode, Date date) {

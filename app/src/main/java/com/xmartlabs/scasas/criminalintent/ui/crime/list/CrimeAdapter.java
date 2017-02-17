@@ -67,7 +67,6 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
     public CrimeHolder(View itemView, OnTappedListener<Crime> onCrimeTappedListener) {
       super(itemView);
       ButterKnife.bind(this, itemView);
-      solvedCheckBox.setEnabled(false);
       this.onCrimeTappedListener = onCrimeTappedListener;
     }
 
