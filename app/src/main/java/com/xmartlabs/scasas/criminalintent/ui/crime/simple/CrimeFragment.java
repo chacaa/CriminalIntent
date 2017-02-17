@@ -1,17 +1,23 @@
 package com.xmartlabs.scasas.criminalintent.ui.crime.simple;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 
+import com.annimon.stream.Optional;
 import com.xmartlabs.scasas.criminalintent.R;
-import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
+import com.xmartlabs.scasas.criminalintent.model.Crime;
+import com.xmartlabs.scasas.criminalintent.ui.DatePickerFragment;
 
 import java.util.Date;
 import java.util.UUID;
@@ -19,10 +25,13 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 public class CrimeFragment extends Fragment {
   private static final String CRIME_ID = "crime_id";
+  private static final String DIALOG_DATE = "dialog_date";
+  private static final int REQUEST_DATE = 0;
 
   @BindView(R.id.crime_solved)
   CheckBox crime_solved;
@@ -65,6 +74,18 @@ public class CrimeFragment extends Fragment {
     return view;
   }
 
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (resultCode != Activity.RESULT_OK) {
+      return;
+    }
+    if (requestCode == REQUEST_DATE) {
+      Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+      crime.setDate(date);
+      setupDateButton();
+    }
+  }
+
   @OnTextChanged(R.id.crime_title)
   void onTitleTextChange(CharSequence newTitle) {
     crime.setTitle(newTitle.toString());
@@ -73,16 +94,33 @@ public class CrimeFragment extends Fragment {
   @OnCheckedChanged(R.id.crime_solved)
   void onSolvedCheckboxChange(boolean isChecked) {
     crime.setSolved(isChecked);
+    if (isChecked) {
+      displayNotification(R.string.checked_solved);
+    } else {
+      displayNotification(R.string.unchecked_solved);
+    }
+  }
+
+  @OnClick(R.id.crime_date)
+  void onDateButtonClick(View view) {
+    FragmentManager manager = getFragmentManager();
+    DatePickerFragment dialog = DatePickerFragment.newInstance(crime.getDate());
+    dialog.setTargetFragment(this, REQUEST_DATE);
+    dialog.show(manager, DIALOG_DATE);
   }
 
   void setupDateButton() {
     dateButton.setText(crime.getDate().toString());
-    dateButton.setEnabled(false);
   }
 
   private void setValues() {
     crime_solved.setChecked(crime.isSolved());
     crime_title.setText(crime.getTitle());
     setupDateButton();
+  }
+
+  private void displayNotification(int message) {
+    Optional.ofNullable(getView())
+        .ifPresent(view -> Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show());
   }
 }
