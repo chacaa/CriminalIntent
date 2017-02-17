@@ -3,9 +3,9 @@ package com.xmartlabs.scasas.criminalintent.ui.crime.simple;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.annimon.stream.Objects;
 import com.annimon.stream.Stream;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Created by scasas on 2/14/17.
  */
-public class CrimePagerActivity extends FragmentActivity {
+public class CrimePagerActivity extends AppCompatActivity {
   private static final String EXTRA_CRIME_ID = CrimePagerActivity.class.getCanonicalName() + ".crime_id";
 
   @BindView(R.id.activity_crime_pager_view_pager)
