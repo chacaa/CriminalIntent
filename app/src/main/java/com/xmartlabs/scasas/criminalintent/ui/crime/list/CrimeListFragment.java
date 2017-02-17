@@ -51,8 +51,8 @@ public class CrimeListFragment extends Fragment {
   }
 
   private void updateUI() {
-    CrimeController crimelab = CrimeController.getInstance();
-    List<Crime> crimes = crimelab.getCrimes();
+    CrimeController crimeController = CrimeController.getInstance();
+    List<Crime> crimes = crimeController.getCrimes();
     adapter.setCrimes(crimes);
   }
 
