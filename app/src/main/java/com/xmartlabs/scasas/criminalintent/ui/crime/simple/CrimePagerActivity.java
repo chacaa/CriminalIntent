@@ -29,7 +29,7 @@ public class CrimePagerActivity extends AppCompatActivity {
   @BindView(R.id.activity_crime_pager_view_pager)
   ViewPager viewPager;
 
-  private final List<Crime> crimes = CrimeController.getInstance().getCrimes();
+  private final List<Crime> crimes = CrimeController.getINSTANCE().getCrimes();
 
   public static Intent newIntent(Context packageContext, UUID crimeId) {
     return new Intent(packageContext, CrimePagerActivity.class)

@@ -38,9 +38,9 @@ public class CrimeListFragment extends Fragment {
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    setHasOptionsMenu(true);
     View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
     ButterKnife.bind(this, view);
+    setHasOptionsMenu(true);
     setpuRecyclerView();
 
     if (savedInstanceState != null) {
@@ -67,7 +67,6 @@ public class CrimeListFragment extends Fragment {
   public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     super.onCreateOptionsMenu(menu, inflater);
     inflater.inflate(R.menu.fragments_crime_list, menu);
-
     MenuItem subtitleItem = menu.findItem(R.id.menu_item_show_subtitle);
     subtitleItem.setTitle(subtitleVisible ? R.string.hide_subtitle : R.string.show_subtitle);
   }
@@ -76,12 +75,12 @@ public class CrimeListFragment extends Fragment {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.menu_item_new_crime:
-        Crime crime = new Crime.Builder()
+        Crime crime = Crime.builder()
             .date(new Date())
             .solved(false)
             .title("")
             .build();
-        CrimeController.getInstance().addCrime(crime);
+        CrimeController.getINSTANCE().addCrime(crime);
         Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
         startActivity(intent);
         return true;
@@ -102,14 +101,14 @@ public class CrimeListFragment extends Fragment {
   }
 
   private void updateSubtitile() {
-    int crimeCount = CrimeController.getInstance().getCrimes().size();
+    int crimeCount = CrimeController.getINSTANCE().getCrimes().size();
     String subtitle = getString(R.string.subtitle_format, Integer.toString(crimeCount));
     AppCompatActivity activity = (AppCompatActivity) getActivity();
     activity.getSupportActionBar().setSubtitle(subtitleVisible ? subtitle : null);
   }
 
   private void updateUI() {
-    CrimeController crimeController = CrimeController.getInstance();
+    CrimeController crimeController = CrimeController.getINSTANCE();
     List<Crime> crimes = crimeController.getCrimes();
     adapter.setCrimes(crimes);
     updateSubtitile();

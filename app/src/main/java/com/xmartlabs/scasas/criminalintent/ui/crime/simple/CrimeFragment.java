@@ -60,11 +60,11 @@ public class CrimeFragment extends Fragment {
     UUID crimeId = (UUID) getArguments().getSerializable(CRIME_ID);
     ButterKnife.bind(this, view);
     if (crimeId != null) {
-      crime = CrimeController.getInstance().getCrime(crimeId);
+      crime = CrimeController.getINSTANCE().getCrime(crimeId);
       setValues();
     } else {
       //TODO it will be used later
-      crime = new Crime.Builder()
+      crime = Crime.builder()
           .date(new Date())
           .solved(false)
           .title("")
