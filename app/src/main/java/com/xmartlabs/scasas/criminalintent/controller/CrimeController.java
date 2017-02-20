@@ -27,15 +27,18 @@ public class CrimeController {
     return INSTANCE;
   }
 
-  private CrimeController() {
-    generateTestCrimes(100);
-  }
+//  private CrimeController() {
+//  }
 
   public Crime getCrime(@NonNull UUID id) {
     return Stream.of(crimes)
         .filter(crime -> Objects.equals(crime.getId(), id))
         .findFirst()
         .orElse(null);
+  }
+
+  public void addCrime(Crime crime) {
+    crimes.add(crime);
   }
 
   private void generateTestCrimes(int numberOfCrimes) {
