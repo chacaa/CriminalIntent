@@ -4,10 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import com.annimon.stream.Objects;
-import com.annimon.stream.Stream;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 
 import lombok.Getter;
@@ -24,13 +21,6 @@ public class CrimeController {
 
   public static CrimeController getInstance() {
     return INSTANCE;
-  }
-
-  public Crime getCrime(@NonNull UUID id) {
-    return Stream.of(crimes)
-        .filter(crime -> Objects.equals(crime.getId(), id))
-        .findFirst()
-        .orElse(null);
   }
 
   public void addCrime(Crime crime) {
