@@ -16,6 +16,7 @@ import lombok.Getter;
  * Created by scasas on 2/7/17.
  */
 public class CrimeController {
+  @NonNull
   private final static CrimeController INSTANCE = new CrimeController();
 
   @Getter
