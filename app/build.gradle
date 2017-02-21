@@ -48,19 +48,19 @@ android {
 
 final ANDROID_SUPPORT_VERSION = '25.1.1'
 final BUTTERKNIFE_VERSION = '8.5.1'
-final LOMBOK_VERSION = '1.16.14'
-final PARCELER_VERSION = '1.1.6'
 final DART_VERSION = '2.0.2'
 final FRAGMENT_ARGS_VERSION = '3.0.2'
+final LOMBOK_VERSION = '1.16.14'
+final PARCELER_VERSION = '1.1.6'
 
 dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     apt "com.f2prateek.dart:dart-processor:${DART_VERSION}"
+    apt "com.f2prateek.dart:henson-processor:${DART_VERSION}"
     apt "com.hannesdorfmann.fragmentargs:processor:${FRAGMENT_ARGS_VERSION}"
     apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
-    apt "com.f2prateek.dart:henson-processor:${DART_VERSION}"
     apt "org.parceler:parceler:${PARCELER_VERSION}"
     apt "org.projectlombok:lombok:${LOMBOK_VERSION}"
     compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"

@@ -1,28 +1,26 @@
 package com.xmartlabs.scasas.criminalintent.model;
 
-import android.support.annotation.NonNull;
+import org.parceler.Parcel;
 
 import java.util.Date;
 import java.util.UUID;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by scasas on 2/2/17.
  */
+@AllArgsConstructor
 @Data
 @Builder
+@NoArgsConstructor
+@Parcel
 public class Crime {
-  private Date date;
-  @NonNull
-  private final UUID id = generateUniqueIdentifier();
-  private boolean solved;
-  private String title;
-
-  private UUID generateUniqueIdentifier() {
-    return UUID.randomUUID();
-  }
+  Date date;
+  UUID id;
+  boolean solved;
+  String title;
 }

@@ -16,10 +16,11 @@ import android.view.ViewGroup;
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
-import com.xmartlabs.scasas.criminalintent.ui.crime.simple.CrimePagerActivity;
+import com.xmartlabs.scasas.criminalintent.ui.crime.simple.Henson;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,13 +77,13 @@ public class CrimeListFragment extends Fragment {
     switch (item.getItemId()) {
       case R.id.menu_item_new_crime:
         Crime crime = Crime.builder()
+            .id(generateUniqueIdentifier())
             .date(new Date())
             .solved(false)
             .title("")
             .build();
-        CrimeController.getINSTANCE().addCrime(crime);
-        Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
-        startActivity(intent);
+        CrimeController.getInstance().addCrime(crime);
+        startActivity(getIntent(crime));
         return true;
       case R.id.menu_item_show_subtitle:
         subtitleVisible = !subtitleVisible;
@@ -94,6 +95,13 @@ public class CrimeListFragment extends Fragment {
     }
   }
 
+  private Intent getIntent(Crime crime) {
+    return Henson.with(getActivity())
+        .gotoCrimePagerActivity()
+        .crime(crime)
+        .build();
+  }
+
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
@@ -101,21 +109,24 @@ public class CrimeListFragment extends Fragment {
   }
 
   private void updateSubtitile() {
-    int crimeCount = CrimeController.getINSTANCE().getCrimes().size();
+    int crimeCount = CrimeController.getInstance().getCrimes().size();
     String subtitle = getString(R.string.subtitle_format, Integer.toString(crimeCount));
     AppCompatActivity activity = (AppCompatActivity) getActivity();
     activity.getSupportActionBar().setSubtitle(subtitleVisible ? subtitle : null);
   }
 
   private void updateUI() {
-    CrimeController crimeController = CrimeController.getINSTANCE();
+    CrimeController crimeController = CrimeController.getInstance();
     List<Crime> crimes = crimeController.getCrimes();
     adapter.setCrimes(crimes);
     updateSubtitile();
   }
 
   private void onCrimeTapped(Crime crime) {
-    Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
-    startActivity(intent);
+    startActivity(getIntent(crime));
+  }
+
+  private UUID generateUniqueIdentifier() {
+    return UUID.randomUUID();
   }
 }
