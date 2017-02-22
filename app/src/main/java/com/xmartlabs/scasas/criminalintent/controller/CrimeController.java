@@ -1,7 +1,6 @@
 package com.xmartlabs.scasas.criminalintent.controller;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.util.List;
 
@@ -20,11 +19,11 @@ public class CrimeController {
     return INSTANCE;
   }
 
-  public void insertCrime(Crime crime) {
+  public void insertCrime(@NonNull Crime crime) {
     crime.insert();
   }
 
-  public void updateCrime(Crime crime) {
+  public void updateCrime(@NonNull Crime crime) {
     crime.update();
   }
 

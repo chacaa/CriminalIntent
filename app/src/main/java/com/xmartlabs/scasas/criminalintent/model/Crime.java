@@ -9,6 +9,7 @@ import com.xmartlabs.scasas.criminalintent.database.AppDataBase;
 import org.parceler.Parcel;
 
 import java.util.Date;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +29,7 @@ public class Crime extends BaseModel {
   @Column
   Date date;
   @PrimaryKey
-  String id;
+  UUID id;
   @Column
   boolean solved;
   @Column
