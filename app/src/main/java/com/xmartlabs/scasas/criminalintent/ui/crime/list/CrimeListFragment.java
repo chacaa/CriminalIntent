@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.raizlabs.android.dbflow.converter.UUIDConverter;
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
@@ -77,12 +78,12 @@ public class CrimeListFragment extends Fragment {
     switch (item.getItemId()) {
       case R.id.menu_item_new_crime:
         Crime crime = Crime.builder()
-            .id(generateUniqueIdentifier().toString())
+            .id(generateUniqueIdentifier())
             .date(new Date())
             .solved(false)
             .title("")
             .build();
-        CrimeController.getInstance().addCrime(crime);
+        CrimeController.getInstance().insertCrime(crime);
         startActivity(getIntent(crime));
         return true;
       case R.id.menu_item_show_subtitle:
@@ -126,7 +127,7 @@ public class CrimeListFragment extends Fragment {
     startActivity(getIntent(crime));
   }
 
-  private UUID generateUniqueIdentifier() {
-    return UUID.randomUUID();
+  private String generateUniqueIdentifier() {
+    return new UUIDConverter().getDBValue(UUID.randomUUID());
   }
 }

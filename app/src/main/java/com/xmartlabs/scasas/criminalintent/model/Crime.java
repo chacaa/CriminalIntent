@@ -9,7 +9,6 @@ import com.xmartlabs.scasas.criminalintent.database.AppDataBase;
 import org.parceler.Parcel;
 
 import java.util.Date;
-import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

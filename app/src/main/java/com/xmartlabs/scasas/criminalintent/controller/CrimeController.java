@@ -20,11 +20,15 @@ public class CrimeController {
     return INSTANCE;
   }
 
-  public void addCrime(Crime crime) {
-    crime.save();
+  public void insertCrime(Crime crime) {
+    crime.insert();
   }
 
-  public static List<Crime> getCrimes(@Nullable SQLCondition... sqlConditions) {
+  public void updateCrime(Crime crime) {
+    crime.update();
+  }
+
+  public static List<Crime> getCrimes(@NonNull SQLCondition... sqlConditions) {
     return SQLite.select()
         .from(Crime.class)
         .where(sqlConditions)

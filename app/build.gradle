@@ -50,7 +50,7 @@ android {
 final ANDROID_SUPPORT_VERSION = '25.1.1'
 final BUTTERKNIFE_VERSION = '8.5.1'
 final DART_VERSION = '2.0.2'
-final DB_FLOW_VERSION = '3.1.1'
+final DB_FLOW_VERSION = '4.0.0-beta5'
 final FRAGMENT_ARGS_VERSION = '3.0.2'
 final LOMBOK_VERSION = '1.16.14'
 final PARCELER_VERSION = '1.1.6'

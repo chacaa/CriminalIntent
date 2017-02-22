@@ -107,6 +107,6 @@ public class CrimeFragment extends Fragment {
   @Override
   public void onDestroyView() {
     super.onDestroyView();
-    CrimeController.getInstance().addCrime(crime);
+    CrimeController.getInstance().updateCrime(crime);
   }
 }
