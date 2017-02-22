@@ -14,13 +14,17 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.annimon.stream.Optional;
+import com.hannesdorfmann.fragmentargs.FragmentArgs;
+import com.hannesdorfmann.fragmentargs.annotation.Arg;
+import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
+import com.hannesdorfmann.fragmentargs.bundler.ParcelerArgsBundler;
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.ui.DatePickerFragment;
+import com.xmartlabs.scasas.criminalintent.ui.DatePickerFragmentBuilder;
 
 import java.util.Date;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,10 +32,13 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
+@FragmentWithArgs
 public class CrimeFragment extends Fragment {
-  private static final String CRIME_ID = "crime_id";
   private static final String DIALOG_DATE = "dialog_date";
   private static final int REQUEST_DATE = 0;
+
+  @Arg(bundler = ParcelerArgsBundler.class, required = false)
+  Crime crime;
 
   @BindView(R.id.crime_solved)
   CheckBox crime_solved;
@@ -40,37 +47,12 @@ public class CrimeFragment extends Fragment {
   @BindView(R.id.crime_date)
   Button dateButton;
 
-  private Crime crime;
-
-  public static CrimeFragment newInstance(UUID crimeId) {
-    Bundle arguments = new Bundle();
-    arguments.putSerializable(CRIME_ID, crimeId);
-    return setupFragment(arguments);
-  }
-
-  static CrimeFragment setupFragment(Bundle arguments) {
-    CrimeFragment crimeFragment = new CrimeFragment();
-    crimeFragment.setArguments(arguments);
-    return crimeFragment;
-  }
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_crime, container, false);
-    UUID crimeId = (UUID) getArguments().getSerializable(CRIME_ID);
     ButterKnife.bind(this, view);
-    if (crimeId != null) {
-      crime = CrimeController.getInstance().getCrime(crimeId);
-      setValues();
-    } else {
-      //TODO it will be used later
-      crime = new Crime.Builder()
-          .date(new Date())
-          .solved(false)
-          .title("")
-          .build();
-      setupDateButton();
-    }
+    FragmentArgs.inject(this);
+    setValues();
     return view;
   }
 
@@ -102,7 +84,7 @@ public class CrimeFragment extends Fragment {
   @OnClick(R.id.crime_date)
   void onDateButtonClicked(View view) {
     FragmentManager manager = getFragmentManager();
-    DatePickerFragment dialog = DatePickerFragment.newInstance(crime.getDate());
+    DatePickerFragment dialog = new DatePickerFragmentBuilder(crime.getDate()).build();
     dialog.setTargetFragment(this, REQUEST_DATE);
     dialog.show(manager, DIALOG_DATE);
   }
@@ -120,5 +102,11 @@ public class CrimeFragment extends Fragment {
   private void displayNotification(int message) {
     Optional.ofNullable(getView())
         .ifPresent(view -> Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show());
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    CrimeController.getInstance().updateCrime(crime);
   }
 }

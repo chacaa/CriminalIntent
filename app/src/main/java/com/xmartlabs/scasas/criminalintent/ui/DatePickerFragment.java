@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 
+import com.hannesdorfmann.fragmentargs.FragmentArgs;
+import com.hannesdorfmann.fragmentargs.annotation.Arg;
+import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import com.xmartlabs.scasas.criminalintent.R;
 
 import java.util.Calendar;
@@ -24,9 +27,12 @@ import butterknife.ButterKnife;
 /**
  * Created by scasas on 2/16/17.
  */
+@FragmentWithArgs
 public class DatePickerFragment extends DialogFragment {
-  private static final String ARG_DATE = "date";
   public static final String EXTRA_DATE = DatePickerFragment.class.getCanonicalName() + ".date";
+
+  @Arg
+  Date date;
 
   @BindView(R.id.dialog_date_picker)
   DatePicker datePicker;
@@ -36,6 +42,7 @@ public class DatePickerFragment extends DialogFragment {
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     View view = inflateView();
     ButterKnife.bind(this, view);
+    FragmentArgs.inject(this);
     setupDatePicker();
     return new AlertDialog.Builder(getActivity())
         .setView(view)
@@ -50,16 +57,7 @@ public class DatePickerFragment extends DialogFragment {
         .inflate(R.layout.dialog_date, null);
   }
 
-  public static DatePickerFragment newInstance(Date date) {
-    Bundle arguments = new Bundle();
-    arguments.putSerializable(ARG_DATE, date);
-    DatePickerFragment fragment = new DatePickerFragment();
-    fragment.setArguments(arguments);
-    return fragment;
-  }
-
   private void setupDatePicker() {
-    Date date = (Date) getArguments().getSerializable(ARG_DATE);
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
     int year = calendar.get(Calendar.YEAR);

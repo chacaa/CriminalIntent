@@ -15,6 +15,7 @@ apply plugin: 'io.fabric'
 apply plugin: 'me.tatarka.retrolambda'
 
 repositories {
+    maven { url "https://jitpack.io" }
     maven { url 'https://maven.fabric.io/public' }
 }
 
@@ -48,22 +49,41 @@ android {
 
 final ANDROID_SUPPORT_VERSION = '25.1.1'
 final BUTTERKNIFE_VERSION = '8.5.1'
+final DART_VERSION = '2.0.2'
+final DB_FLOW_VERSION = '4.0.0-beta5'
+final FRAGMENT_ARGS_VERSION = '3.0.2'
+final LOMBOK_VERSION = '1.16.14'
+final PARCELER_VERSION = '1.1.6'
 
 dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    apt "com.f2prateek.dart:dart-processor:${DART_VERSION}"
+    apt "com.f2prateek.dart:henson-processor:${DART_VERSION}"
+    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${DB_FLOW_VERSION}"
+    apt "com.hannesdorfmann.fragmentargs:processor:${FRAGMENT_ARGS_VERSION}"
     apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
+    apt "org.parceler:parceler:${PARCELER_VERSION}"
+    apt "org.projectlombok:lombok:${LOMBOK_VERSION}"
     compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:design:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:support-v4:${ANDROID_SUPPORT_VERSION}"
     compile 'com.annimon:stream:1.1.5'
-    compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
         transitive = true;
     }
+    compile "com.f2prateek.dart:dart:${DART_VERSION}"
+    compile "com.f2prateek.dart:henson:${DART_VERSION}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${DB_FLOW_VERSION}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${DB_FLOW_VERSION}"
+    compile "com.hannesdorfmann.fragmentargs:annotation:${FRAGMENT_ARGS_VERSION}"
+    compile "com.hannesdorfmann.fragmentargs:bundler-parceler:${FRAGMENT_ARGS_VERSION}"
+    compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
+    compile "org.parceler:parceler-api:${PARCELER_VERSION}"
+    compile "org.projectlombok:lombok:${LOMBOK_VERSION}"
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.5.0'
 }
