@@ -77,7 +77,7 @@ public class CrimeListFragment extends Fragment {
     switch (item.getItemId()) {
       case R.id.menu_item_new_crime:
         Crime crime = Crime.builder()
-            .id(generateUniqueIdentifier())
+            .id(generateUniqueIdentifier().toString())
             .date(new Date())
             .solved(false)
             .title("")

@@ -3,7 +3,6 @@ package com.xmartlabs.scasas.criminalintent.ui.crime.simple;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,12 +14,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.annimon.stream.Optional;
-import com.annimon.stream.function.Consumer;
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import com.hannesdorfmann.fragmentargs.bundler.ParcelerArgsBundler;
 import com.xmartlabs.scasas.criminalintent.R;
+import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.ui.DatePickerFragment;
 import com.xmartlabs.scasas.criminalintent.ui.DatePickerFragmentBuilder;
@@ -38,7 +37,6 @@ public class CrimeFragment extends Fragment {
   private static final String DIALOG_DATE = "dialog_date";
   private static final int REQUEST_DATE = 0;
 
-  @Nullable
   @Arg(bundler = ParcelerArgsBundler.class, required = false)
   Crime crime;
 
@@ -54,16 +52,7 @@ public class CrimeFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_crime, container, false);
     ButterKnife.bind(this, view);
     FragmentArgs.inject(this);
-    if (crime == null) {
-      crime = Crime.builder()
-          .date(new Date())
-          .solved(false)
-          .title("")
-          .build();
-      setupDateButton();
-    } else {
-      setValues();
-    }
+    setValues();
     return view;
   }
 
@@ -113,5 +102,11 @@ public class CrimeFragment extends Fragment {
   private void displayNotification(int message) {
     Optional.ofNullable(getView())
         .ifPresent(view -> Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show());
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    CrimeController.getInstance().addCrime(crime);
   }
 }

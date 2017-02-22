@@ -10,12 +10,12 @@ import com.annimon.stream.Stream;
 
 import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
+
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +30,7 @@ public class CrimePagerActivity extends AppCompatActivity {
   @BindView(R.id.activity_crime_pager_view_pager)
   ViewPager viewPager;
 
-  private final List<Crime> crimes = CrimeController.getInstance().getCrimes();
+  private final List<Crime> crimes = getAllCrimes();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class CrimePagerActivity extends AppCompatActivity {
     setCurrentItem(crime.getId());
   }
 
-  private void setCurrentItem(UUID crimeId) {
+  private void setCurrentItem(String crimeId) {
     Stream.range(0, crimes.size())
         .filter(index -> Objects.equals(crimes.get(index).getId(), crimeId))
         .findFirst()
@@ -57,5 +57,9 @@ public class CrimePagerActivity extends AppCompatActivity {
     FragmentManager fragmentManager = getSupportFragmentManager();
     CrimePagerAdapter crimePagerAdapter = new CrimePagerAdapter(fragmentManager, crimes);
     viewPager.setAdapter(crimePagerAdapter);
+  }
+
+  private List<Crime> getAllCrimes() {
+    return CrimeController.getCrimes();
   }
 }

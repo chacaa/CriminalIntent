@@ -15,6 +15,7 @@ apply plugin: 'io.fabric'
 apply plugin: 'me.tatarka.retrolambda'
 
 repositories {
+    maven { url "https://jitpack.io" }
     maven { url 'https://maven.fabric.io/public' }
 }
 
@@ -49,6 +50,7 @@ android {
 final ANDROID_SUPPORT_VERSION = '25.1.1'
 final BUTTERKNIFE_VERSION = '8.5.1'
 final DART_VERSION = '2.0.2'
+final DB_FLOW_VERSION = '3.1.1'
 final FRAGMENT_ARGS_VERSION = '3.0.2'
 final LOMBOK_VERSION = '1.16.14'
 final PARCELER_VERSION = '1.1.6'
@@ -59,6 +61,7 @@ dependencies {
     })
     apt "com.f2prateek.dart:dart-processor:${DART_VERSION}"
     apt "com.f2prateek.dart:henson-processor:${DART_VERSION}"
+    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${DB_FLOW_VERSION}"
     apt "com.hannesdorfmann.fragmentargs:processor:${FRAGMENT_ARGS_VERSION}"
     apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
     apt "org.parceler:parceler:${PARCELER_VERSION}"
@@ -73,6 +76,8 @@ dependencies {
     }
     compile "com.f2prateek.dart:dart:${DART_VERSION}"
     compile "com.f2prateek.dart:henson:${DART_VERSION}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${DB_FLOW_VERSION}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${DB_FLOW_VERSION}"
     compile "com.hannesdorfmann.fragmentargs:annotation:${FRAGMENT_ARGS_VERSION}"
     compile "com.hannesdorfmann.fragmentargs:bundler-parceler:${FRAGMENT_ARGS_VERSION}"
     compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"

@@ -1,5 +1,11 @@
 package com.xmartlabs.scasas.criminalintent.model;
 
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.xmartlabs.scasas.criminalintent.database.AppDataBase;
+
 import org.parceler.Parcel;
 
 import java.util.Date;
@@ -18,9 +24,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @Parcel
-public class Crime {
+@Table(database = AppDataBase.class, cachingEnabled = true, cacheSize = 100)
+public class Crime extends BaseModel {
+  @Column
   Date date;
-  UUID id;
+  @PrimaryKey
+  String id;
+  @Column
   boolean solved;
+  @Column
   String title;
 }
