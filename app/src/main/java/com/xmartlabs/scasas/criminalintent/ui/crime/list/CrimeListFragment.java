@@ -78,7 +78,7 @@ public class CrimeListFragment extends Fragment {
     switch (item.getItemId()) {
       case R.id.menu_item_new_crime:
         Crime crime = Crime.builder()
-            .id(generateUniqueIdentifier())
+            .id(UUID.randomUUID().toString())
             .date(new Date())
             .solved(false)
             .title("")
@@ -125,9 +125,5 @@ public class CrimeListFragment extends Fragment {
 
   private void onCrimeTapped(Crime crime) {
     startActivity(getCrimePagerActivityIntent(crime));
-  }
-
-  private UUID generateUniqueIdentifier() {
-    return UUID.randomUUID();
   }
 }
