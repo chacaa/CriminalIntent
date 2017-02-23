@@ -22,6 +22,10 @@ All notable changes will be documented in this file.
 * Swapping between crimes.
 * Adds arguments to the fragments and also integrates the stream's library.
 
+### [1.1.1](https://github.com/chacaa/CriminalIntent/releases/tag/v1.1.1)
+<!-- Released on 2017-23-02. -->
+* Fixes db bug.
+
 [xmartlabs]: https://xmartlabs.com
 
 
