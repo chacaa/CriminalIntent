@@ -90,7 +90,7 @@ public class CrimeFragment extends Fragment {
   }
 
   void setupDateButton() {
-    dateButton.setText(crime.getDate().toString());
+    //dateButton.setText(crime.getDate().toString());
   }
 
   private void setValues() {
