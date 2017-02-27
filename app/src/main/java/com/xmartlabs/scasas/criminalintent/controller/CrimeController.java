@@ -45,10 +45,21 @@ public class CrimeController {
 //        .queryList();
 //  }
 
-  public static Single<List<Crime>> getCrimesFromService(){
+  public static Single<List<Crime>> getCrimesFromService() {
     return ServiceHelper.SERVICE.getCrimes()
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.io());
   }
 
+  public static Single<Crime> createCrimeOnService(Crime crime) {
+    return ServiceHelper.SERVICE.createCrime(crime)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io());
+  }
+
+  public static Single<Crime> updateCrimeOnService(String id, Crime crime) {
+    return ServiceHelper.SERVICE.updateCrime(id, crime)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io());
+  }
 }

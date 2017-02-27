@@ -132,7 +132,8 @@ public class CrimeListFragment extends Fragment {
   private void updateUI() {
     CrimeController crimeController = CrimeController.getInstance();
 //    List<Crime> crimes = crimeController.getCrimes();
-    adapter.setCrimes(crimes);
+    fetchCrimes();
+    //adapter.setCrimes(crimes);
     updateSubtitile();
   }
 
@@ -153,7 +154,7 @@ public class CrimeListFragment extends Fragment {
       @Override
       public void onError(Throwable error) {
         System.out.println(error);
-        Toast.makeText(CriminalIntentApplication.getContext(),error.toString(),Toast.LENGTH_SHORT);
+        Toast.makeText(CriminalIntentApplication.getContext(),error.toString(),Toast.LENGTH_SHORT).show();
       }
     });
   }

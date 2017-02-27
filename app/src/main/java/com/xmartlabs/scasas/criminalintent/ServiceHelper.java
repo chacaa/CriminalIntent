@@ -36,7 +36,7 @@ public class ServiceHelper {
 
   private static Gson provideGson() {
     return provideCommonGsonBuilder()
-        .registerTypeAdapter(Date.class, new MillisecondsLocalDateAdapter())
+        .registerTypeAdapter(Date.class, new MilisecondsDateAdapter())
         .create();
   }
 

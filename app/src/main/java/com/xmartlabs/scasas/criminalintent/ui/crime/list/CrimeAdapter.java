@@ -71,7 +71,7 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeAdapter.CrimeHolder>
     }
 
     public void bind(Crime crime) {
-      //dateTextView.setText(crime.getDate().toString());
+      dateTextView.setText(crime.getDate().toString());
       solvedCheckBox.setChecked(crime.isSolved());
       titleTextView.setText(crime.getTitle());
       itemView.setOnClickListener(v -> onCrimeTappedListener.call(crime));

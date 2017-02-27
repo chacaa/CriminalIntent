@@ -6,18 +6,21 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.annimon.stream.Optional;
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import com.hannesdorfmann.fragmentargs.bundler.ParcelerArgsBundler;
+import com.xmartlabs.scasas.criminalintent.CriminalIntentApplication;
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
@@ -25,12 +28,15 @@ import com.xmartlabs.scasas.criminalintent.ui.DatePickerFragment;
 import com.xmartlabs.scasas.criminalintent.ui.DatePickerFragmentBuilder;
 
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import rx.SingleSubscriber;
+import timber.log.Timber;
 
 @FragmentWithArgs
 public class CrimeFragment extends Fragment {
@@ -52,6 +58,19 @@ public class CrimeFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_crime, container, false);
     ButterKnife.bind(this, view);
     FragmentArgs.inject(this);
+    view.setFocusableInTouchMode(true);
+    view.requestFocus();
+    view.setOnKeyListener(new View.OnKeyListener() {
+      @Override
+      public boolean onKey(View view, int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+          updateCrime();
+          getActivity().finish();
+          return true;
+        }
+        return false;
+      }
+    });
     setValues();
     return view;
   }
@@ -90,7 +109,7 @@ public class CrimeFragment extends Fragment {
   }
 
   void setupDateButton() {
-    //dateButton.setText(crime.getDate().toString());
+    dateButton.setText(crime.getDate().toString());
   }
 
   private void setValues() {
@@ -107,6 +126,25 @@ public class CrimeFragment extends Fragment {
   @Override
   public void onDestroyView() {
     super.onDestroyView();
+    updateCrime();
     CrimeController.getInstance().updateCrime(crime);
+  }
+
+  public void updateCrime() {
+    CrimeController.updateCrimeOnService(crime.getId(), crime).subscribe(new SingleSubscriber<Crime>() {
+      @Override
+      public void onSuccess(Crime crime) {
+        CrimeController.getInstance().updateCrime(crime);
+        Toast.makeText(CriminalIntentApplication.getContext(), "Crime succesfully updated.", Toast.LENGTH_SHORT).show();
+      }
+
+      @Override
+      public void onError(Throwable error) {
+        Toast.makeText(CriminalIntentApplication.getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+        Timber.e(error.toString());
+      }
+    });
+
+
   }
 }
