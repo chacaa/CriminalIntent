@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,6 @@ import com.xmartlabs.scasas.criminalintent.ui.DatePickerFragment;
 import com.xmartlabs.scasas.criminalintent.ui.DatePickerFragmentBuilder;
 
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +43,8 @@ public class CrimeFragment extends Fragment {
 
   @Arg(bundler = ParcelerArgsBundler.class, required = false)
   Crime crime;
+  @Arg(bundler = ParcelerArgsBundler.class)
+  Boolean isNewCrime;
 
   @BindView(R.id.crime_solved)
   CheckBox crime_solved;
@@ -52,25 +52,14 @@ public class CrimeFragment extends Fragment {
   EditText crime_title;
   @BindView(R.id.crime_date)
   Button dateButton;
+  @BindView(R.id.save_button)
+  Button saveButton;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_crime, container, false);
     ButterKnife.bind(this, view);
     FragmentArgs.inject(this);
-    view.setFocusableInTouchMode(true);
-    view.requestFocus();
-    view.setOnKeyListener(new View.OnKeyListener() {
-      @Override
-      public boolean onKey(View view, int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-          updateCrime();
-          getActivity().finish();
-          return true;
-        }
-        return false;
-      }
-    });
     setValues();
     return view;
   }
@@ -108,6 +97,15 @@ public class CrimeFragment extends Fragment {
     dialog.show(manager, DIALOG_DATE);
   }
 
+  @OnClick(R.id.save_button)
+  void onSaveButtonClicked(View view) {
+    if (isNewCrime) {
+      insertCrime();
+    } else {
+      updateCrime();
+    }
+  }
+
   void setupDateButton() {
     dateButton.setText(crime.getDate().toString());
   }
@@ -123,28 +121,36 @@ public class CrimeFragment extends Fragment {
         .ifPresent(view -> Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show());
   }
 
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    updateCrime();
-    CrimeController.getInstance().updateCrime(crime);
+  public void updateCrime() {
+    CrimeController.getInstance().updateCrimeOnService(crime.getId(), crime)
+        .subscribe(new SingleSubscriber<Crime>() {
+          @Override
+          public void onSuccess(Crime crime) {
+            CrimeController.getInstance().updateCrime(crime);
+            Toast.makeText(CriminalIntentApplication.getContext(), "Crime succesfully updated.", Toast.LENGTH_SHORT).show();
+          }
+
+          @Override
+          public void onError(Throwable error) {
+            Toast.makeText(CriminalIntentApplication.getContext(), "Failed updating the crime.", Toast.LENGTH_SHORT).show();
+            Timber.e(error.toString());
+          }
+        });
   }
 
-  public void updateCrime() {
-    CrimeController.updateCrimeOnService(crime.getId(), crime).subscribe(new SingleSubscriber<Crime>() {
+  public void insertCrime() {
+    CrimeController.getInstance().insertCrimeOnService(crime).subscribe(new SingleSubscriber<Crime>() {
       @Override
       public void onSuccess(Crime crime) {
-        CrimeController.getInstance().updateCrime(crime);
-        Toast.makeText(CriminalIntentApplication.getContext(), "Crime succesfully updated.", Toast.LENGTH_SHORT).show();
+        CrimeController.getInstance().insertCrime(crime);
+        Toast.makeText(CriminalIntentApplication.getContext(), "Crime succesfully inserted.", Toast.LENGTH_SHORT).show();
       }
 
       @Override
       public void onError(Throwable error) {
-        Toast.makeText(CriminalIntentApplication.getContext(), error.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(CriminalIntentApplication.getContext(), "Failed inserting the crime.", Toast.LENGTH_SHORT).show();
         Timber.e(error.toString());
       }
     });
-
-
   }
 }

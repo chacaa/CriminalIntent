@@ -13,18 +13,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.Toast;
 
 import com.annimon.stream.Optional;
-import com.xmartlabs.scasas.criminalintent.CriminalIntentApplication;
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 import com.xmartlabs.scasas.criminalintent.ui.crime.simple.Henson;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +29,7 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
-import rx.SingleSubscriber;
+import rx.Observer;
 
 /**
  * Created by scasas on 2/7/17.
@@ -94,8 +90,9 @@ public class CrimeListFragment extends Fragment {
             .solved(false)
             .title("")
             .build();
-        CrimeController.getInstance().insertCrime(crime);
-        startActivity(getCrimePagerActivityIntent(crime,crimes));
+        List<Crime> crimes = new ArrayList<>();
+        crimes.add(crime);
+        startActivity(getCrimePagerActivityIntent(crime, crimes, true));
         return true;
       case R.id.menu_item_show_subtitle:
         subtitleVisible = !subtitleVisible;
@@ -107,11 +104,12 @@ public class CrimeListFragment extends Fragment {
     }
   }
 
-  private Intent getCrimePagerActivityIntent(@NonNull Crime crime, @NonNull List<Crime> crimes) {
+  private Intent getCrimePagerActivityIntent(@NonNull Crime crime, @NonNull List<Crime> crimes, boolean isNewCrime) {
     return Henson.with(getActivity())
         .gotoCrimePagerActivity()
         .crime(crime)
         .crimes(crimes)
+        .isNewCrime(isNewCrime)
         .build();
   }
 
@@ -122,7 +120,6 @@ public class CrimeListFragment extends Fragment {
   }
 
   private void updateSubtitile() {
-//    int crimeCount = CrimeController.getInstance().getCrimes().size();
     int crimeCount = crimes.size();
     String subtitle = getString(R.string.subtitle_format, Integer.toString(crimeCount));
     AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -130,31 +127,29 @@ public class CrimeListFragment extends Fragment {
   }
 
   private void updateUI() {
-    CrimeController crimeController = CrimeController.getInstance();
-//    List<Crime> crimes = crimeController.getCrimes();
     fetchCrimes();
-    //adapter.setCrimes(crimes);
     updateSubtitile();
   }
 
   private void onCrimeTapped(Crime crime) {
-    startActivity(getCrimePagerActivityIntent(crime,crimes));
+    startActivity(getCrimePagerActivityIntent(crime, crimes, false));
   }
 
-
   public void fetchCrimes() {
-    CrimeController.getCrimesFromService()
-        .subscribe(new SingleSubscriber<List<Crime>>() {
+    CrimeController.getInstance().getCrimes().subscribe(new Observer<List<Crime>>() {
       @Override
-      public void onSuccess(List<Crime> crimeList) {
-        crimes = crimeList;
-        adapter.setCrimes(crimes);
+      public void onCompleted() {
       }
 
       @Override
       public void onError(Throwable error) {
         System.out.println(error);
-        Toast.makeText(CriminalIntentApplication.getContext(),error.toString(),Toast.LENGTH_SHORT).show();
+      }
+
+      @Override
+      public void onNext(List<Crime> crimesList) {
+        crimes = crimesList;
+        adapter.setCrimes(crimes);
       }
     });
   }
