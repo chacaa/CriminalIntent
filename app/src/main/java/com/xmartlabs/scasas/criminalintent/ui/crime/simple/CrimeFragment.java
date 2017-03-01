@@ -28,6 +28,8 @@ import com.xmartlabs.scasas.criminalintent.ui.DatePickerFragmentBuilder;
 
 import java.util.Date;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
@@ -40,6 +42,9 @@ import timber.log.Timber;
 public class CrimeFragment extends Fragment {
   private static final String DIALOG_DATE = "dialog_date";
   private static final int REQUEST_DATE = 0;
+
+  @Inject
+  CrimeController crimeController;
 
   @Arg(bundler = ParcelerArgsBundler.class, required = false)
   Crime crime;
@@ -58,6 +63,7 @@ public class CrimeFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_crime, container, false);
+    CriminalIntentApplication.getContext().inject(this);
     ButterKnife.bind(this, view);
     FragmentArgs.inject(this);
     setValues();
@@ -122,7 +128,7 @@ public class CrimeFragment extends Fragment {
   }
 
   public void updateCrime() {
-    CrimeController.getInstance().updateCrime(crime.getId(), crime)
+    crimeController.updateCrime(crime.getId(), crime)
         .subscribe(new SingleSubscriber<Crime>() {
           @Override
           public void onSuccess(Crime crime) {
@@ -138,7 +144,7 @@ public class CrimeFragment extends Fragment {
   }
 
   public void insertCrime() {
-    CrimeController.getInstance().insertCrime(crime).subscribe(new SingleSubscriber<Crime>() {
+    crimeController.insertCrime(crime).subscribe(new SingleSubscriber<Crime>() {
       @Override
       public void onSuccess(Crime crime) {
         Toast.makeText(CriminalIntentApplication.getContext(), R.string.crime_insert_ok, Toast.LENGTH_SHORT).show();
