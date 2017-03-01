@@ -83,9 +83,7 @@ public class CrimeListFragment extends Fragment {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.menu_item_new_crime:
-        Crime crime = null;
-        List<Crime> crimes = null;
-        startActivity(getCrimePagerActivityIntent(crime,crimes));
+        startActivity(getCrimePagerActivityIntent());
         return true;
       case R.id.menu_item_show_subtitle:
         subtitleVisible = !subtitleVisible;
@@ -95,6 +93,10 @@ public class CrimeListFragment extends Fragment {
       default:
         return super.onOptionsItemSelected(item);
     }
+  }
+
+  private Intent getCrimePagerActivityIntent() {
+    return getCrimePagerActivityIntent(null, null);
   }
 
   private Intent getCrimePagerActivityIntent(@Nullable Crime crime, @Nullable List<Crime> crimes) {

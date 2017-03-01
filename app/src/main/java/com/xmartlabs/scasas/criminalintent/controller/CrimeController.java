@@ -29,10 +29,7 @@ public class CrimeController {
   }
 
   public Single<List<Crime>> getCrimesFromDataBase() {
-    return Single.fromCallable(() -> SQLite.select()
-        .from(Crime.class)
-        .where()
-        .queryList())
+    return Single.fromCallable(() -> SQLite.select().from(Crime.class).where().queryList())
         .subscribeOn(Schedulers.io());
   }
 
@@ -61,9 +58,7 @@ public class CrimeController {
   }
 
   public Observable<List<Crime>> getCrimes() {
-    return Observable.concatDelayError(
-        getCrimesFromDataBase().toObservable(),
-        getCrimesFromService().toObservable()
-    ).observeOn(AndroidSchedulers.mainThread());
+    return Observable.concatDelayError(getCrimesFromDataBase().toObservable(), getCrimesFromService().toObservable())
+        .observeOn(AndroidSchedulers.mainThread());
   }
 }
