@@ -8,9 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import lombok.Getter;
 
