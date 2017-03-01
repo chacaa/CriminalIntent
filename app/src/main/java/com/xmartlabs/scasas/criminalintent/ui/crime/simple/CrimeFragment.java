@@ -12,12 +12,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.annimon.stream.Optional;
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import com.hannesdorfmann.fragmentargs.bundler.ParcelerArgsBundler;
+import com.xmartlabs.scasas.criminalintent.application.CriminalIntentApplication;
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
@@ -31,6 +33,8 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import rx.SingleSubscriber;
+import timber.log.Timber;
 
 @FragmentWithArgs
 public class CrimeFragment extends Fragment {
@@ -39,6 +43,8 @@ public class CrimeFragment extends Fragment {
 
   @Arg(bundler = ParcelerArgsBundler.class, required = false)
   Crime crime;
+  @Arg(bundler = ParcelerArgsBundler.class)
+  Boolean isNewCrime;
 
   @BindView(R.id.crime_solved)
   CheckBox crime_solved;
@@ -46,6 +52,8 @@ public class CrimeFragment extends Fragment {
   EditText crime_title;
   @BindView(R.id.crime_date)
   Button dateButton;
+  @BindView(R.id.save_button)
+  Button saveButton;
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,6 +97,15 @@ public class CrimeFragment extends Fragment {
     dialog.show(manager, DIALOG_DATE);
   }
 
+  @OnClick(R.id.save_button)
+  void onSaveButtonClicked(View view) {
+    if (isNewCrime) {
+      insertCrime();
+    } else {
+      updateCrime();
+    }
+  }
+
   void setupDateButton() {
     dateButton.setText(crime.getDate().toString());
   }
@@ -104,9 +121,34 @@ public class CrimeFragment extends Fragment {
         .ifPresent(view -> Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show());
   }
 
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    CrimeController.getInstance().updateCrime(crime);
+  public void updateCrime() {
+    CrimeController.getInstance().updateCrime(crime.getId(), crime)
+        .subscribe(new SingleSubscriber<Crime>() {
+          @Override
+          public void onSuccess(Crime crime) {
+            Toast.makeText(CriminalIntentApplication.getContext(), R.string.crime_update_ok, Toast.LENGTH_SHORT).show();
+          }
+
+          @Override
+          public void onError(Throwable error) {
+            Toast.makeText(CriminalIntentApplication.getContext(), R.string.crime_update_fail, Toast.LENGTH_SHORT).show();
+            Timber.e(error.toString());
+          }
+        });
+  }
+
+  public void insertCrime() {
+    CrimeController.getInstance().insertCrime(crime).subscribe(new SingleSubscriber<Crime>() {
+      @Override
+      public void onSuccess(Crime crime) {
+        Toast.makeText(CriminalIntentApplication.getContext(), R.string.crime_insert_ok, Toast.LENGTH_SHORT).show();
+      }
+
+      @Override
+      public void onError(Throwable error) {
+        Toast.makeText(CriminalIntentApplication.getContext(), R.string.crime_update_fail, Toast.LENGTH_SHORT).show();
+        Timber.e(error.toString());
+      }
+    });
   }
 }

@@ -1,6 +1,7 @@
 package com.xmartlabs.scasas.criminalintent.ui.crime.simple;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +13,12 @@ import com.f2prateek.dart.Dart;
 import com.f2prateek.dart.InjectExtra;
 
 import com.xmartlabs.scasas.criminalintent.R;
-import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,19 +28,34 @@ import butterknife.ButterKnife;
  */
 public class CrimePagerActivity extends AppCompatActivity {
   @InjectExtra
+  @Nullable
   Crime crime;
+  @InjectExtra
+  @Nullable
+  List<Crime> crimes;
+
+  private boolean isNewCrime;
 
   @BindView(R.id.activity_crime_pager_view_pager)
   ViewPager viewPager;
-
-  private final List<Crime> crimes = getAllCrimes();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setupLayout();
-    setupCrimePagerAdapter();
     Dart.inject(this);
+    if (crime == null) {
+      isNewCrime = true;
+      crime = Crime.builder()
+          .id(UUID.randomUUID().toString())
+          .date(new Date())
+          .solved(false)
+          .title("")
+          .build();
+      crimes = new ArrayList<>();
+      crimes.add(crime);
+    }
+    setupCrimePagerAdapter();
     setCurrentItem(crime.getId());
   }
 
@@ -55,11 +73,8 @@ public class CrimePagerActivity extends AppCompatActivity {
 
   private void setupCrimePagerAdapter() {
     FragmentManager fragmentManager = getSupportFragmentManager();
-    CrimePagerAdapter crimePagerAdapter = new CrimePagerAdapter(fragmentManager, crimes);
+    CrimePagerAdapter crimePagerAdapter = new CrimePagerAdapter(fragmentManager);
+    crimePagerAdapter.setCrimes(crimes, isNewCrime);
     viewPager.setAdapter(crimePagerAdapter);
-  }
-
-  private List<Crime> getAllCrimes() {
-    return CrimeController.getCrimes();
   }
 }
