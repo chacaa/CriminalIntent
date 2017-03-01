@@ -3,6 +3,7 @@ package com.xmartlabs.scasas.criminalintent.ui.crime.list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,16 +21,14 @@ import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 import com.xmartlabs.scasas.criminalintent.ui.crime.simple.Henson;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.Getter;
 import rx.Observer;
+import timber.log.Timber;
 
 /**
  * Created by scasas on 2/7/17.
@@ -84,15 +83,9 @@ public class CrimeListFragment extends Fragment {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.menu_item_new_crime:
-        Crime crime = Crime.builder()
-            .id(UUID.randomUUID().toString())
-            .date(new Date())
-            .solved(false)
-            .title("")
-            .build();
-        List<Crime> crimes = new ArrayList<>();
-        crimes.add(crime);
-        startActivity(getCrimePagerActivityIntent(crime, crimes, true));
+        Crime crime = null;
+        List<Crime> crimes = null;
+        startActivity(getCrimePagerActivityIntent(crime,crimes));
         return true;
       case R.id.menu_item_show_subtitle:
         subtitleVisible = !subtitleVisible;
@@ -104,12 +97,11 @@ public class CrimeListFragment extends Fragment {
     }
   }
 
-  private Intent getCrimePagerActivityIntent(@NonNull Crime crime, @NonNull List<Crime> crimes, boolean isNewCrime) {
+  private Intent getCrimePagerActivityIntent(@Nullable Crime crime, @Nullable List<Crime> crimes) {
     return Henson.with(getActivity())
         .gotoCrimePagerActivity()
         .crime(crime)
         .crimes(crimes)
-        .isNewCrime(isNewCrime)
         .build();
   }
 
@@ -132,25 +124,28 @@ public class CrimeListFragment extends Fragment {
   }
 
   private void onCrimeTapped(Crime crime) {
-    startActivity(getCrimePagerActivityIntent(crime, crimes, false));
+    startActivity(getCrimePagerActivityIntent(crime, crimes));
   }
 
   public void fetchCrimes() {
-    CrimeController.getInstance().getCrimes().subscribe(new Observer<List<Crime>>() {
-      @Override
-      public void onCompleted() {
-      }
+    CrimeController.getInstance()
+        .getCrimes()
+        .subscribe(new Observer<List<Crime>>() {
+          @Override
+          public void onCompleted() {
+          }
 
-      @Override
-      public void onError(Throwable error) {
-        System.out.println(error);
-      }
+          @Override
+          public void onError(Throwable error) {
+            Timber.e(error.toString());
+          }
 
-      @Override
-      public void onNext(List<Crime> crimesList) {
-        crimes = crimesList;
-        adapter.setCrimes(crimes);
-      }
-    });
+          @Override
+          public void onNext(List<Crime> crimesList) {
+            isAdded();
+            crimes = crimesList;
+            adapter.setCrimes(crimes);
+          }
+        });
   }
 }

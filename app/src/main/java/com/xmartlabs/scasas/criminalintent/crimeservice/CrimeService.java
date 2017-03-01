@@ -1,4 +1,4 @@
-package com.xmartlabs.scasas.criminalintent;
+package com.xmartlabs.scasas.criminalintent.crimeservice;
 
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 
@@ -14,11 +14,13 @@ import rx.Single;
 /**
  * Created by scasas on 2/23/17.
  */
-public interface Service {
+public interface CrimeService {
   @GET("crimes")
   Single<List<Crime>> getCrimes();
+
   @POST("crimes")
   Single<Crime> createCrime(@Body Crime crime);
+
   @PUT("crimes/{id}")
   Single<Crime> updateCrime(@Path("id")String id, @Body Crime crime);
 }

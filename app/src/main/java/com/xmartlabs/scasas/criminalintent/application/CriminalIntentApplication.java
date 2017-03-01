@@ -1,12 +1,9 @@
-package com.xmartlabs.scasas.criminalintent;
+package com.xmartlabs.scasas.criminalintent.application;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
-
-import lombok.Getter;
 
 /**
  * Created by scasas on 2/21/17.

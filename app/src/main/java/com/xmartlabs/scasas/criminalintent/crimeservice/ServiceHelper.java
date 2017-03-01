@@ -1,13 +1,15 @@
-package com.xmartlabs.scasas.criminalintent;
+package com.xmartlabs.scasas.criminalintent.crimeservice;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.annimon.stream.Objects;
-import com.google.gson.ExclusionStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.moczul.ok2curl.CurlInterceptor;
+import com.xmartlabs.scasas.criminalintent.BuildConfig;
+import com.xmartlabs.scasas.criminalintent.application.CriminalIntentApplication;
+import com.xmartlabs.scasas.criminalintent.crimeservice.serviceutils.MilisecondsDateAdapter;
+import com.xmartlabs.scasas.criminalintent.R;
 
 import java.util.Date;
 
@@ -25,8 +27,7 @@ public class ServiceHelper {
   public static final Gson GSON = provideGson();
   public static final OkHttpClient OK_HTTP_CLIENT = provideServiceOkHttpClient();
   public static final Retrofit RETROFIT = provideRetrofit();
-  public static final Service SERVICE = provideService();
-
+  public static final CrimeService SERVICE = provideService();
 
   private static GsonBuilder provideCommonGsonBuilder() {
     GsonBuilder gsonBuilder = new GsonBuilder();
@@ -71,8 +72,8 @@ public class ServiceHelper {
     return context.getString(R.string.url_service);
   }
 
-  private static Service provideService() {
-    return RETROFIT.create(Service.class);
+  private static CrimeService provideService() {
+    return RETROFIT.create(CrimeService.class);
   }
 
   private static void addLoggingInterceptor(@NonNull OkHttpClient.Builder clientBuilder) {

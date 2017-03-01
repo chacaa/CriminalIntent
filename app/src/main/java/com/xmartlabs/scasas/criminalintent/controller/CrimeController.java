@@ -6,7 +6,8 @@ import com.annimon.stream.Stream;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import com.xmartlabs.scasas.criminalintent.ServiceHelper;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.xmartlabs.scasas.criminalintent.crimeservice.ServiceHelper;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 
 import java.util.List;
@@ -27,19 +28,12 @@ public class CrimeController {
     return INSTANCE;
   }
 
-  public void insertCrime(@NonNull Crime crime) {
-    crime.insert();
-  }
-
-  public void updateCrime(@NonNull Crime crime) {
-    crime.update();
-  }
-
   public Single<List<Crime>> getCrimesFromDataBase() {
     return Single.fromCallable(() -> SQLite.select()
         .from(Crime.class)
         .where()
-        .queryList());
+        .queryList())
+        .subscribeOn(Schedulers.io());
   }
 
   public Single<List<Crime>> getCrimesFromService() {
@@ -47,19 +41,21 @@ public class CrimeController {
         .observeOn(Schedulers.io())
         .doOnSuccess(crimes -> {
           SQLite.delete().from(Crime.class).execute();
-          Stream.of(crimes).forEach(this::insertCrime);
+          Stream.of(crimes).forEach(BaseModel::insert);
         })
         .subscribeOn(Schedulers.io());
   }
 
-  public Single<Crime> insertCrimeOnService(Crime crime) {
+  public Single<Crime> insertCrime(Crime crime) {
     return ServiceHelper.SERVICE.createCrime(crime)
+        .doOnSuccess(BaseModel::insert)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.io());
   }
 
-  public Single<Crime> updateCrimeOnService(String id, Crime crime) {
+  public Single<Crime> updateCrime(String id, Crime crime) {
     return ServiceHelper.SERVICE.updateCrime(id, crime)
+        .doOnSuccess(BaseModel::update)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribeOn(Schedulers.io());
   }

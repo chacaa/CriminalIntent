@@ -15,5 +15,9 @@
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle_format">%1$s crimes</string>
+    <string name="crime_update_ok">Crime successfully updated.</string>
+    <string name="crime_update_fail">Failed updating the crime.</string>
+    <string name="crime_insert_ok">Crime successfully inserted.</string>
+    <string name="crime_insert_fail">Failed inserting the crime.</string>
 
 </resources>

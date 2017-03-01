@@ -19,7 +19,7 @@ import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import com.hannesdorfmann.fragmentargs.bundler.ParcelerArgsBundler;
-import com.xmartlabs.scasas.criminalintent.CriminalIntentApplication;
+import com.xmartlabs.scasas.criminalintent.application.CriminalIntentApplication;
 import com.xmartlabs.scasas.criminalintent.R;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
@@ -122,33 +122,31 @@ public class CrimeFragment extends Fragment {
   }
 
   public void updateCrime() {
-    CrimeController.getInstance().updateCrimeOnService(crime.getId(), crime)
+    CrimeController.getInstance().updateCrime(crime.getId(), crime)
         .subscribe(new SingleSubscriber<Crime>() {
           @Override
           public void onSuccess(Crime crime) {
-            CrimeController.getInstance().updateCrime(crime);
-            Toast.makeText(CriminalIntentApplication.getContext(), "Crime succesfully updated.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CriminalIntentApplication.getContext(), R.string.crime_update_ok, Toast.LENGTH_SHORT).show();
           }
 
           @Override
           public void onError(Throwable error) {
-            Toast.makeText(CriminalIntentApplication.getContext(), "Failed updating the crime.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CriminalIntentApplication.getContext(), R.string.crime_update_fail, Toast.LENGTH_SHORT).show();
             Timber.e(error.toString());
           }
         });
   }
 
   public void insertCrime() {
-    CrimeController.getInstance().insertCrimeOnService(crime).subscribe(new SingleSubscriber<Crime>() {
+    CrimeController.getInstance().insertCrime(crime).subscribe(new SingleSubscriber<Crime>() {
       @Override
       public void onSuccess(Crime crime) {
-        CrimeController.getInstance().insertCrime(crime);
-        Toast.makeText(CriminalIntentApplication.getContext(), "Crime succesfully inserted.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(CriminalIntentApplication.getContext(), R.string.crime_insert_ok, Toast.LENGTH_SHORT).show();
       }
 
       @Override
       public void onError(Throwable error) {
-        Toast.makeText(CriminalIntentApplication.getContext(), "Failed inserting the crime.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(CriminalIntentApplication.getContext(), R.string.crime_update_fail, Toast.LENGTH_SHORT).show();
         Timber.e(error.toString());
       }
     });
