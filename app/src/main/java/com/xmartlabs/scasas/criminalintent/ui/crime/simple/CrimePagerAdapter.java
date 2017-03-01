@@ -36,17 +36,7 @@ public class CrimePagerAdapter extends FragmentStatePagerAdapter {
 
   @Override
   public Fragment getItem(int position) {
-    Crime crime;
-//    if (isNewCrime) {
-//      crime = Crime.builder()
-//          .id(UUID.randomUUID().toString())
-//          .date(new Date())
-//          .solved(false)
-//          .title("")
-//          .build();
-//    } else {
-      crime = crimes.get(position);
-//    }
+    Crime crime = crimes.get(position);
     return new CrimeFragmentBuilder(isNewCrime)
         .crime(crime)
         .build();
