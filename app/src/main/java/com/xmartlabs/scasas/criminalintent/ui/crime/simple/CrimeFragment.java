@@ -45,8 +45,6 @@ public class CrimeFragment extends Fragment {
 
   @Inject
   CrimeController crimeController;
-//  @Inject
-//  CriminalIntentApplication application;
 
   @Arg(bundler = ParcelerArgsBundler.class, required = false)
   Crime crime;

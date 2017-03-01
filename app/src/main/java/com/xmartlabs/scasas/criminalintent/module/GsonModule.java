@@ -33,5 +33,4 @@ public class GsonModule {
         .registerTypeAdapter(Date.class, new MilisecondsDateAdapter())
         .create();
   }
-
 }
