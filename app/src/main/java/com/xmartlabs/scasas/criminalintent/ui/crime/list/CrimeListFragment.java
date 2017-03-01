@@ -16,12 +16,15 @@ import android.view.ViewGroup;
 
 import com.annimon.stream.Optional;
 import com.xmartlabs.scasas.criminalintent.R;
+import com.xmartlabs.scasas.criminalintent.application.CriminalIntentApplication;
 import com.xmartlabs.scasas.criminalintent.model.Crime;
 import com.xmartlabs.scasas.criminalintent.controller.CrimeController;
 import com.xmartlabs.scasas.criminalintent.ui.crime.simple.Henson;
 
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +38,9 @@ import timber.log.Timber;
 public class CrimeListFragment extends Fragment {
   private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
 
+  @Inject
+  CrimeController crimeController;
+
   @BindView(R.id.crime_recycler_view)
   RecyclerView crimeRecyclerView;
 
@@ -47,6 +53,7 @@ public class CrimeListFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
+    CriminalIntentApplication.getContext().inject(this);
     ButterKnife.bind(this, view);
     setHasOptionsMenu(true);
     setpuRecyclerView();
@@ -87,7 +94,7 @@ public class CrimeListFragment extends Fragment {
       case R.id.menu_item_show_subtitle:
         subtitleVisible = !subtitleVisible;
         getActivity().invalidateOptionsMenu();
-        updateSubtitile();
+        updateSubtitle();
         return true;
       default:
         return super.onOptionsItemSelected(item);
@@ -114,7 +121,7 @@ public class CrimeListFragment extends Fragment {
     outState.putBoolean(SAVED_SUBTITLE_VISIBLE, subtitleVisible);
   }
 
-  private void updateSubtitile() {
+  private void updateSubtitle() {
     int crimeCount = crimes.size();
     String subtitle = getString(R.string.subtitle_format, Integer.toString(crimeCount));
     AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -123,7 +130,7 @@ public class CrimeListFragment extends Fragment {
 
   private void updateUI() {
     fetchCrimes();
-    updateSubtitile();
+    updateSubtitle();
   }
 
   private void onCrimeTapped(Crime crime) {
@@ -131,7 +138,7 @@ public class CrimeListFragment extends Fragment {
   }
 
   public void fetchCrimes() {
-    CrimeController.getInstance()
+    crimeController
         .getCrimes()
         .subscribe(new Observer<List<Crime>>() {
           @Override
