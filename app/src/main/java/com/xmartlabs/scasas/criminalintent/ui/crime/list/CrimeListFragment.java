@@ -3,7 +3,6 @@ package com.xmartlabs.scasas.criminalintent.ui.crime.list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -83,7 +82,7 @@ public class CrimeListFragment extends Fragment {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case R.id.menu_item_new_crime:
-        startActivity(getCrimePagerActivityIntent());
+        startActivity(getCreateCrimeIntent());
         return true;
       case R.id.menu_item_show_subtitle:
         subtitleVisible = !subtitleVisible;
@@ -95,11 +94,13 @@ public class CrimeListFragment extends Fragment {
     }
   }
 
-  private Intent getCrimePagerActivityIntent() {
-    return getCrimePagerActivityIntent(null, null);
+  private Intent getCreateCrimeIntent() {
+    return Henson.with(getActivity())
+        .gotoCrimePagerActivity()
+        .build();
   }
 
-  private Intent getCrimePagerActivityIntent(@Nullable Crime crime, @Nullable List<Crime> crimes) {
+  private Intent getUpdateCrimeIntent(@NonNull Crime crime, @NonNull List<Crime> crimes) {
     return Henson.with(getActivity())
         .gotoCrimePagerActivity()
         .crime(crime)
@@ -126,7 +127,7 @@ public class CrimeListFragment extends Fragment {
   }
 
   private void onCrimeTapped(Crime crime) {
-    startActivity(getCrimePagerActivityIntent(crime, crimes));
+    startActivity(getUpdateCrimeIntent(crime, crimes));
   }
 
   public void fetchCrimes() {
