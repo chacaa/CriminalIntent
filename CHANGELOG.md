@@ -26,8 +26,11 @@ All notable changes will be documented in this file.
 <!-- Released on 2017-23-02. -->
 * Fixes db bug.
 
+### [1.2.0](https://github.com/chacaa/CriminalIntent/releases/tag/v1.2.0)
+<!-- Released on 2017-02-03. -->
+* Integrates dagger and bullet.
+* Integrate rest services.
+
+
 [xmartlabs]: https://xmartlabs.com
-
-
-
 
